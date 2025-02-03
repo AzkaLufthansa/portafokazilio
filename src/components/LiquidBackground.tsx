@@ -22,6 +22,7 @@ export class LiquidBackground {
     this.renderer.domElement.style.position = 'absolute';
     this.renderer.domElement.style.top = '0';
     this.renderer.domElement.style.left = '0';
+    this.renderer.domElement.style.zIndex = '-1';
     container.appendChild(this.renderer.domElement);
 
     this.material = new THREE.ShaderMaterial({

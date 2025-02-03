@@ -3,104 +3,99 @@
 import { useInitBackground } from "@/app/initBackground";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { Loading } from "@/components/Loading";
+import { Navigation } from "@/components/Navigation";
 
 const Page: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [isBackgroundReady, setIsBackgroundReady] = useState(false);
+  const [contentVisible, setContentVisible] = useState(false);
 
-  useEffect(() => {
-    // Simulasi loading minimum 1 detik
-    const timer = setTimeout(() => {
+  const handleBackgroundReady = useCallback(() => {
+    // Tunggu sedikit lebih lama sebelum menghilangkan loading
+    setTimeout(() => {
       setIsLoading(false);
+      // Tambah delay kecil sebelum menampilkan konten
+      setTimeout(() => {
+        setContentVisible(true);
+      }, 100);
     }, 1000);
-    return () => clearTimeout(timer);
   }, []);
 
-  useInitBackground();
-
-  // Handler untuk background ready
-  const handleBackgroundReady = () => {
-    setIsBackgroundReady(true);
-  };
-
-  useEffect(() => {
-    const bgElement = document.getElementById('liquid-background');
-    if (bgElement) {
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.addedNodes.length) {
-            handleBackgroundReady();
-          }
-        });
-      });
-      
-      observer.observe(bgElement, { childList: true });
-      return () => observer.disconnect();
-    }
-  }, []);
+  useInitBackground(handleBackgroundReady);
 
   return (
-    <>
-      <AnimatePresence>
-        {isLoading && <Loading />}
+    <div className="relative w-full min-h-screen overflow-x-hidden">
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Loading />
+          </motion.div>
+        )}
       </AnimatePresence>
 
-      <main className="relative w-full min-h-screen overflow-x-hidden">
-        <div id="liquid-background" className="fixed inset-0 w-full h-full" />
-        
-        <AnimatePresence>
-          {isBackgroundReady && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="relative z-10"
+      <div id="liquid-background" className="fixed inset-0 w-full h-full z-0" />
+      
+      <Navigation />
+      
+      {contentVisible && (
+        <motion.main
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-10"
+        >
+          {/* Hero Section */}
+          <section className="min-h-screen flex items-center justify-center px-4">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center"
             >
-              {/* Hero Section */}
-              <section className="min-h-screen flex items-center justify-center px-4">
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="text-center"
-                >
-                  <h1 className="text-7xl font-black mb-6 text-white tracking-wider drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]">
-                    Akaziadyne Levith
-                  </h1>
-                  <h2 className="text-4xl text-white tracking-wide font-semibold drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
-                    Software Developer
-                  </h2>
-                  <div className="mt-8 flex gap-6 justify-center">
-                    <SocialLink href="https://github.com/yourusername" icon={<FaGithub />} />
-                    <SocialLink href="https://linkedin.com/in/yourusername" icon={<FaLinkedin />} />
-                    <SocialLink href="mailto:your@email.com" icon={<FaEnvelope />} />
-                  </div>
-                </motion.div>
-              </section>
-
-              {/* About Section */}
-              <section className="py-20 px-4">
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8 }}
-                  className="max-w-4xl mx-auto bg-black/30 backdrop-blur-lg rounded-xl p-8 shadow-lg"
-                >
-                  <h2 className="text-3xl font-bold text-white mb-6">About Me</h2>
-                  <p className="text-gray-100 leading-relaxed">
-                    Seorang software developer yang passionate dalam menciptakan solusi digital yang inovatif.
-                    Dengan pengalaman dalam pengembangan web modern dan mobile applications.
-                  </p>
-                </motion.div>
-              </section>
+              <h1 className="text-7xl font-black mb-6 text-white tracking-wider drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]">
+                Muhammad Azka Lufthansa
+              </h1>
+              <h2 className="text-4xl text-white tracking-wide font-semibold drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+                Software Developer
+              </h2>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="mt-8 flex gap-6 justify-center"
+              >
+                <SocialLink href="https://github.com/AzkaLufthansa" icon={<FaGithub />} />
+                <SocialLink href="https://www.linkedin.com/in/azkalufthansa/" icon={<FaLinkedin />} />
+                <SocialLink href="azkalufthansa3@gmail.com" icon={<FaEnvelope />} />
+              </motion.div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </main>
-    </>
+          </section>
+
+          {/* About Section */}
+          <section className="py-20 px-4">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8 }}
+              className="max-w-4xl mx-auto bg-black/30 backdrop-blur-lg rounded-xl p-8 shadow-lg"
+            >
+              <h2 className="text-3xl font-bold text-white mb-6">About Me</h2>
+              <p className="text-gray-100 leading-relaxed">
+                Seorang software developer yang passionate dalam menciptakan solusi digital yang inovatif.
+                Dengan pengalaman dalam pengembangan web modern dan mobile applications.
+              </p>
+            </motion.div>
+          </section>
+        </motion.main>
+      )}
+    </div>
   );
 };
 
