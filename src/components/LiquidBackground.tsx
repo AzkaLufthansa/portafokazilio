@@ -81,9 +81,9 @@ export class LiquidBackground {
           
           // Color layers
           // Warna dasar yang bergerak seiring waktu
-          vec3 color1 = vec3(0.12 + sin(time * 0.3) * 0.05, 0.35, 0.55); // Bright deep blue dengan animasi
-          vec3 color2 = vec3(0.15, 0.45 + cos(time * 0.4) * 0.05, 0.65); // Vibrant medium blue dengan animasi
-          vec3 color3 = vec3(0.2, 0.55, 0.75 + sin(time * 0.5) * 0.05);  // Bright ocean blue dengan animasi
+          vec3 color1 = vec3(0.1, 0.2, 0.5); // Dark blue
+          vec3 color2 = vec3(0.2, 0.3, 0.7); // Medium blue
+          vec3 color3 = vec3(0.3, 0.4, 0.9); // Light blue
           
           float noise1 = noise(finalWarp * 4.0 + t);
           float noise2 = noise(finalWarp * 4.0 - t * 1.5);

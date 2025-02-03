@@ -112,25 +112,25 @@ const SocialLink: React.FC<{ href: string; icon: React.ReactNode }> = ({ href, i
   </motion.a>
 );
 
-const ProjectCard: React.FC<{ title: string; description: string; tech: string[] }> = ({
-  title,
-  description,
-  tech
-}) => (
-  <motion.div
-    whileHover={{ scale: 1.05 }}
-    className="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg"
-  >
-    <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-    <p className="text-gray-100 mb-4">{description}</p>
-    <div className="flex flex-wrap gap-2">
-      {tech.map((t) => (
-        <span key={t} className="px-3 py-1 bg-blue-500/30 rounded-full text-sm text-white">
-          {t}
-        </span>
-      ))}
-    </div>
-  </motion.div>
-);
+// const ProjectCard: React.FC<{ title: string; description: string; tech: string[] }> = ({
+//   title,
+//   description,
+//   tech
+// }) => (
+//   <motion.div
+//     whileHover={{ scale: 1.05 }}
+//     className="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg"
+//   >
+//     <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+//     <p className="text-gray-100 mb-4">{description}</p>
+//     <div className="flex flex-wrap gap-2">
+//       {tech.map((t) => (
+//         <span key={t} className="px-3 py-1 bg-blue-500/30 rounded-full text-sm text-white">
+//           {t}
+//         </span>
+//       ))}
+//     </div>
+//   </motion.div>
+// );
 
 export default Page;

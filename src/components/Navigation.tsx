@@ -1,9 +1,6 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 
 export const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <motion.nav
       initial={{ y: -100 }}
